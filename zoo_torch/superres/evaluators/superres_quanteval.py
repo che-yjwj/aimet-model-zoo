@@ -1,11 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Imports
-
-# In[ ]:
-
-
 import os, sys
 sys.path.append(os.path.dirname(os.getcwd()))
 import glob
@@ -29,7 +21,7 @@ from utils.inference import load_model, run_model
 
 # These are all the constant variables that we use throughout this notebook. It also specifies the different model variations that were trained. You can select the necessary model at the end of this notebook while running inference.
 
-# In[ ]:
+
 
 
 ''' Set the following variable to the path of your dataset (parent directory of actual images) '''
@@ -41,10 +33,11 @@ CHECKPOINT_DIR = './checkpoints/'
 if not os.path.exists(CHECKPOINT_DIR):
     os.makedirs(CHECKPOINT_DIR)
     
-use_cuda = True  # Whether to use CUDA or CPU
+# use_cuda = True  # Whether to use CUDA or CPU
+use_cuda = False  # Whether to use CUDA or CPU
 
 
-# In[ ]:
+
 
 
 MODEL_ARGS = {
@@ -189,7 +182,7 @@ MODELS = list(MODEL_ARGS.keys())
 
 # # Select a model
 
-# In[ ]:
+
 
 
 MODEL_DICT = {}
@@ -201,14 +194,14 @@ MODEL_DICT
 
 # Select one of the models printed above by selecting the corresponding index in the cell below.
 
-# In[ ]:
+
 
 
 ''' Set this variable'''
-model_index = 0  # Model index
+model_index = 6  # Model index
 
 
-# In[ ]:
+
 
 
 MODEL_NAME = MODELS[model_index]  # Selected model type
@@ -224,14 +217,14 @@ MODEL_SPECS_DICT
 
 # Select one of the models printed above by selecting the corresponding index in the cell below
 
-# In[ ]:
+
 
 
 ''' Set this variable'''
 model_spec_index = 0 # Model specification index
 
 
-# In[ ]:
+
 
 
 # Choose model
@@ -241,7 +234,7 @@ print(f'{MODEL_CONFIG} will be used')
 
 # Automatically download model weights:
 
-# In[ ]:
+
 
 
 # Define paths to download filenames
@@ -264,7 +257,7 @@ QUANTSIM_CONFIG_FILENAME = 'default_config_per_channel.json'
 CONFIG_PATH = os.path.join(CHECKPOINT_DIR, 'default_config_per_channel.json')
 
 
-# In[ ]:
+
 
 
 if not os.path.exists(MODEL_PATH_INT8) or not os.path.exists(MODEL_PATH_FP32) or not os.path.exists(ENCODING_PATH):
@@ -284,7 +277,7 @@ if not os.path.exists(CONFIG_PATH):
 
 # Load test-set images (low-res and high-res pairs)
 
-# In[ ]:
+
 
 
 # Path to test images
@@ -296,7 +289,7 @@ IMAGES_LR, IMAGES_HR = load_dataset(TEST_IMAGES_DIR, MODEL_ARGS[MODEL_NAME].get(
 
 # ## Create model instance and load weights
 
-# In[ ]:
+
 
 
 # Load the model
@@ -321,7 +314,7 @@ model_optimized_int8 = load_model(MODEL_PATH_INT8, MODEL_NAME, MODEL_ARGS[MODEL_
 
 # Run inference to get the respective super-resolved images
 
-# In[ ]:
+
 
 
 # Run model inference on test images and get super-resolved images
@@ -333,7 +326,7 @@ IMAGES_SR_optimized_int8 = run_model(model_optimized_int8.model, IMAGES_LR, use_
 
 # Calculate average-PSNR between the test-set high-res and super-resolved images
 
-# In[ ]:
+
 
 
 # Get the average PSNR for all test-images
